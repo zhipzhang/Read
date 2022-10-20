@@ -18,7 +18,7 @@ void Tel_groups::set()
     }
     alt = alt * TMath::DegToRad();
     az = az * TMath::DegToRad();
-    dist = (double *) calloc(ntel* narray, sizeof(double));
+    dist = (double *) calloc(ntel * narray, sizeof(double));
 }
 
 Tel_groups::Tel_groups()
@@ -48,5 +48,11 @@ void Tel_groups::clear()
     free(dist);
     alt = 0.;
     az = 0.;
+    for(int i =0; i< ntel; i++)
+    {
+        xtel[i] = xtel[i] * 100;
+        ytel[i] = ytel[i] * 100;
+        ztel[i] = ztel[i] * 100;
+    }
 
 }

@@ -27,12 +27,12 @@ int main(int argc, char** argv)
     }
 
     TFile* h_file = new TFile(out_file.c_str(), "RECREATE");
-    TH1D* h1 = new TH1D("h1", "photon_density",30, 0, 600);
-    TH1D* h2 = new TH1D("h2", "density_with_weight",30, 0, 600);
+    TH1D* h1 = new TH1D("h1", "photon_density",60, 0, 600);
+    TH1D* h2 = new TH1D("h2", "density_with_weight",60, 0, 600);
     while(argc > 1 || in_file != NULL)
     {
         in_file = argv[1];
-        double area = TMath::Pi() * pow(5*cos(10*TMath::DegToRad()), 2);
+        double area = TMath::Pi() * pow(4*cos(10*TMath::DegToRad()), 2);
         TFile* root_file = new TFile(in_file, "READ");
         in_file = NULL;
         TTree* event_tree = (TTree*) root_file->Get("event_data");

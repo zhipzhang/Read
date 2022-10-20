@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1 CACHE BOOL "for clang" FORCE)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_FLAGS " -g -O2")
+set(CMAKE_CXX_FLAGS " -g -O0 -D_LARGEFILE64_SOURCE ")
 #set(CMAKE_CXX_FLAGS_RELEASE "-o2")
 
 set(HESS "/data/home/zhipz/hessioxxx/lib/libhessio.so")

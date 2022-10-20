@@ -19,7 +19,6 @@ CMakeFiles/class.dir/Class.cxx.o
  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stdarg.h
  /usr/include/bits/stdio_lim.h
  /usr/include/bits/sys_errlist.h
- /usr/include/bits/stdio.h
  /usr/include/stdlib.h
  /usr/include/bits/waitflags.h
  /usr/include/bits/waitstatus.h
@@ -164,7 +163,6 @@ CMakeFiles/class.dir/Class.cxx.o
  /usr/include/bits/nan.h
  /usr/include/bits/mathdef.h
  /usr/include/bits/mathcalls.h
- /usr/include/bits/mathinline.h
  /usr/include/c++/4.8.2/algorithm
  /usr/include/c++/4.8.2/utility
  /usr/include/c++/4.8.2/bits/stl_relops.h
@@ -320,7 +318,6 @@ CMakeFiles/class.dir/src/Photon_bunches.cpp.o
  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stdarg.h
  /usr/include/bits/stdio_lim.h
  /usr/include/bits/sys_errlist.h
- /usr/include/bits/stdio.h
  /data/home/zhipz/root/include/strtok.h
  /usr/include/c++/4.8.2/cstring
  /usr/include/string.h
@@ -449,7 +446,6 @@ CMakeFiles/class.dir/src/Photon_bunches.cpp.o
  /usr/include/bits/nan.h
  /usr/include/bits/mathdef.h
  /usr/include/bits/mathcalls.h
- /usr/include/bits/mathinline.h
  /data/home/zhipz/work/scripts/include/warning.h
  /data/home/zhipz/work/scripts/include/mc_atmprof.h
 
@@ -506,7 +502,6 @@ CMakeFiles/class.dir/src/Tel_groups.cpp.o
  /usr/include/bits/nan.h
  /usr/include/bits/mathdef.h
  /usr/include/bits/mathcalls.h
- /usr/include/bits/mathinline.h
  /usr/include/c++/4.8.2/algorithm
  /usr/include/c++/4.8.2/utility
  /usr/include/c++/4.8.2/bits/stl_relops.h
@@ -546,7 +541,6 @@ CMakeFiles/class.dir/src/Tel_groups.cpp.o
  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stdarg.h
  /usr/include/bits/stdio_lim.h
  /usr/include/bits/sys_errlist.h
- /usr/include/bits/stdio.h
  /usr/include/c++/4.8.2/string
  /usr/include/c++/4.8.2/bits/stringfwd.h
  /usr/include/c++/4.8.2/bits/char_traits.h

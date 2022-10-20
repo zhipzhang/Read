@@ -34,12 +34,13 @@ int main(int argc, char** argv)
     int max_bunches = 50000000;
     int res;
     int i; 
+    FILE * data_file;
     struct bunch *bunches = (struct bunch *) calloc(1, sizeof(bunch));
     std::string out_file = "out.root";
     auto photon = new Photon_bunches();
     auto tel_group = new Tel_groups();
     auto event = new events();
-    if( ( iobuf = allocate_io_buffer(5000000L)) == NULL)
+    if( ( iobuf = allocate_io_buffer(0)) == NULL)
     {
         std::cout << "Cannot allocate I/O buffer" << std::endl;
         exit( EXIT_FAILURE );
@@ -67,7 +68,6 @@ int main(int argc, char** argv)
             break;
         }
     }
-
     TFile* root_file = new TFile(out_file.c_str(), "RECREATE");
     if( root_file->IsZombie())
     {
@@ -79,7 +79,7 @@ int main(int argc, char** argv)
     bunch->Branch("photon_bunches",&photon);
 
     TTree* event_data = new TTree("event_data", "photons in per tel");
-    event_data->Branch("event", &event,500000);
+    event_data->Branch("event", &event);
     
 
     bunches = (struct bunch *) calloc(max_bunches, sizeof(struct bunch));
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
             }
         }
 
-        if( (iobuf->input_file = fileopen(input_fname, READ_BINARY)) == NULL)
+        if( ( data_file = fileopen(input_fname, "r")) == NULL)
         {
             perror( input_fname );
             std::cout << "Cannot open input file " << std::endl;
@@ -117,6 +117,8 @@ int main(int argc, char** argv)
 
         }
         input_fname = NULL;
+        iobuf->input_file = data_file;
+
 
         for(;;)
         {
@@ -128,8 +130,37 @@ int main(int argc, char** argv)
             switch ((int) block_header.type)
             {
                 case IO_TYPE_MC_RUNH:
-                    read_tel_block(iobuf, IO_TYPE_MC_RUNH, runh, 273);
+                    {
+                        read_tel_block(iobuf, IO_TYPE_MC_RUNH, runh, 273);
                 /* code */
+                    if( iobuf->input_file != NULL)
+                    {
+                        int seek_back = 0;
+                        # if defined(__USE_LARGEFILE64)
+                        #  define FTELL(f) ftello64(f)
+                        #  define FSEEK(f,o,p) fseeko64(f,o,p)
+                        #  define OFF_T off64_t 
+                        #endif
+                        OFF_T off = ftello64(iobuf->input_file);
+                        do 
+                        {
+                            if ( off == -1 )
+                        {
+                            perror(input_fname);
+                            break;
+                        }
+                            seek_back = 1;
+                        if ( FSEEK(iobuf->input_file,(OFF_T)(-32L),SEEK_END) == -1 )
+                        {
+                            perror(input_fname);
+                            break;
+                        }
+                        }while(0);
+                        if(seek_back)
+                            FSEEK(iobuf->input_file,off,SEEK_SET);
+                    }
+            
+                    }
                     break;
 
                 case IO_TYPE_MC_INPUTCFG:
@@ -192,7 +223,7 @@ int main(int argc, char** argv)
                     double photons;
                     begin_read_tel_array(iobuf, &item_header, &iarray);
                     sub_item_header.type = IO_TYPE_MC_PHOTONS;
-                    for( int itc = 0; itc < tel_group->ntel; itc ++)
+                    for( int itc = 0; itc < tel_group->ntel; itc++)
                     {
                         if(search_sub_item(iobuf, &item_header, &sub_item_header) < 0)
                         {
@@ -203,16 +234,17 @@ int main(int argc, char** argv)
                             fflush(stdout);
                             std::cout << "Error reading"<< std::endl;
                         }
-                           // event->fill(shower*100+jarray, itel, bunches->photons,tel_group->dist[jarray*(tel_group->narray) + itel]);
-                            //event_data->Fill();
-                            //event->clear();
+                        event->fill(shower*100+jarray, itel, photons,tel_group->dist[jarray*(tel_group->narray) + itel]);
+                        event_data->Fill();
+                        event->clear();
+                            
                             for(int ibunch = 0 ; ibunch < nbunches; ibunch++)
                             {
                                 photon->fill_photon_bunch(bunches[ibunch], jarray, itel, tel_group->dist[jarray*(tel_group->narray) + itel]);
                                 bunch->Fill();
                                 photon->clear();
                             }
-                            /* code */
+                        /* code */
                     }
                                
                     break;
@@ -252,8 +284,8 @@ int main(int argc, char** argv)
         reset_io_block(iobuf);
 
     }
+    bunch->Write();
     event_data->Write();
-   // tel_data->Write();
     root_file->Write();
     root_file->Close();
 

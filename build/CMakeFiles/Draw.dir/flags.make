@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/data/home/zhipz/root/include -I/data/home/zhipz/work/scripts/include
 
-CXX_FLAGS =  -g -O2  -std=c++11 -pipe -fsigned-char -pthread -std=gnu++11
+CXX_FLAGS =  -g -O0 -D_LARGEFILE64_SOURCE   -std=c++11 -pipe -fsigned-char -pthread -std=gnu++11
 
